@@ -1,10 +1,5 @@
-#include <wiringPi.h>
-#include <softPwm.h>
 #include <stdio.h>
-#include <iostream>
 #include <stdlib.h>
-#include <unistd.h>
-#include <stdexcept>
 
 class piMotor {
 private:
@@ -14,7 +9,7 @@ private:
     // sets motor direction
     void motorSet(int a1, int a2, int b1, int b2);
 public:
-    piMotor();
+    piMotor() = default;
     // Creates piMotor object
     // max voltage limit, percentages
     // min value = 1
