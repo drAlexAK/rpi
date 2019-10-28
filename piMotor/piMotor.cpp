@@ -28,7 +28,6 @@ int D2    = 25;
 #define PWML  37
 // const
 #define PWMLimit 100
-#define MOTOR_POWER_LIMIT 80
 
 // sets motor direction
 void piMotor::motorSet(int a1, int a2, int b1, int b2){
@@ -40,11 +39,9 @@ digitalWrite(PWML2, b2);
 // Creates piMotor object
 // max voltage limit, percentages
 // min value = 1
-// max value 100
-piMotor::piMotor(uint _limit){
-if ((_limit < 1) || (_limit > 100)) throw std::invalid_argument("Invalid voltage limit: '" + std::to_string(_limit) + "'");
-limit = _limit;
-}
+// max value = 100
+#define BORDERS_POWER MAX_MOTOR_POWER_LIMIT - MIN_MOTOR_POWER_LIMIT
+
 // Initializes settings
 void piMotor::Init(){
 if (wiringPiSetupPhys() == -1) throw std::runtime_error("Cannot initilize wiringPi.");
@@ -59,6 +56,11 @@ if (wiringPiSetupPhys() == -1) throw std::runtime_error("Cannot initilize wiring
 
 	softPwmCreate(PWMR, 0, PWMLimit);
 	softPwmCreate(PWML, 0, PWMLimit);
+}
+
+piMotor::piMotor(uint _min_limit , uint _max_limit ){
+	 minMotorPowerLimit = _min_limit;
+	 maxMotorPowerLimit = _max_limit;
 }
 // sets directions
 void piMotor::Left(){
@@ -76,25 +78,38 @@ void piMotor::Forward(){
 void piMotor::Backward(){
 	motorSet(0, 1, 0, 1);
 }
+
 // sets speed for left motor
-// min 0
-// max 100
-void piMotor::SetSpeedLeft(uint v){
+// min 0%
+// max 100%
+void piMotor::SetSpeedLeft(uint v){ // percent speed
 	if (v > 100) v = 100;
+	if (v < 0) v = 0;
+	
 	if (v == speedLeft) return;
-	softPwmWrite(PWML, (v * limit) / 100); // normalize voltage
+	
+	if(v < minMotorPowerLimit && v != 0) v = minMotorPowerLimit;
+	
+	uint voltage = ((maxMotorPowerLimit / 100) * v); // normalize voltage
+	softPwmWrite(PWML, voltage);
 	speedLeft = v;
 }
 uint piMotor::GetSpeedLeft(){
 	return speedLeft;
 }
 // sets speed for right motor
-// min 0
-// max 100
-void piMotor::SetSpeedRight(uint v){
+// min 0%
+// max 100%
+void piMotor::SetSpeedRight(uint v){ // percent speed
 	if (v > 100) v = 100;
+	if (v < 0) v = 0;
+
 	if (v == speedRight) return;
-	softPwmWrite(PWMR, (v * limit) / 100); // normalize voltage
+
+	if(v < minMotorPowerLimit && v != 0) v = minMotorPowerLimit;
+	uint voltage =  ((maxMotorPowerLimit / 100) * v); // normalize voltage
+	std::cout << voltage << "\n";
+	softPwmWrite(PWMR, voltage);
 	speedRight= v;
 }
 uint piMotor::GetSpeedRight(){
