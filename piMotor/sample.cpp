@@ -8,14 +8,14 @@
 #include <thread>
 
 int main() {
-
-	piMotor m(1, 1);
+	piMotor m(12.0, 2.0, 9.0);
 	m.Init();
 	m.Forward();
-	for (int i = 0; i < 101; i++){
+	for (uint i = 0; i < 101; i+=5){
+		//m.getPower(i);
 		m.SetSpeedLeft(i);
 		m.SetSpeedRight(i);
-		std::this_thread::sleep_for(std::chrono::milliseconds(300));
+		std::this_thread::sleep_for(std::chrono::milliseconds(500));
 	}
 	m.Stop();
 	m.Release();
