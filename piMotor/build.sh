@@ -1,2 +1,2 @@
 # g++ -I./ -lwiringPi -c ./piMotor.cpp -o piMotor.so
-g++ -I/sc/rpi/piMotor -lwiringPi  ./sample.cpp ./piMotor.cpp -o motor
+g++ -std=c++14 -I/sc/rpi/piMotor -lwiringPi  ./sample.cpp ./piMotor.cpp -o motor

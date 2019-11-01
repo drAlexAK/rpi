@@ -119,7 +119,6 @@ void piMotor::SetSpeedRight(uint v){ // percent speed
 	if (v == speedRight) return;
 
 	int power =  getPower(v);
-	//std::cout << v << " " << power << "\n";
 	softPwmWrite(PWMR, power);
 	speedRight= v;
 }
