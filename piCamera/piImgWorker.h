@@ -4,30 +4,20 @@
 #include <stdlib.h>
 //#include <opencv2/highgui.hpp>
 
-//using namespace cv;
-//using namespace std;
-
 
 class piImgWorker {
 private:
-	int black = 80;
+	int colorBlack = 80;
+	bool doMorphological = false;
+	void Morphological(cv::Mat &_img);
+	void imgConvert(cv::Mat &_img);
+	bool getPoints(cv::Mat &_img);
+	
 public:
 
-/*struct Point{
-	int row;
-	int col;
-	Point(){
-		row = 0;
-		col = 0;
-	}
-	Point(int _row, int _col){
-		row = _row;
-		col = _col;
-	}
-};*/
-	//struct Point;
-	std::pair<cv::Point, cv::Point> topPoints;
-	std::pair<cv::Point, cv::Point> bottomPoints;
-	bool getPoint(cv::Mat &frmGray);
-	piImgWorker(int _black);
+	cv::Mat img;
+	cv::Point pntTopLeft, pntTopRight, pntBottomLeft, pntBottomRight;
+
+	piImgWorker(int _color_black, bool _do_morphological );
+	bool Do(cv::Mat _img);
 };
