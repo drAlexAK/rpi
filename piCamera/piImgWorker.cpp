@@ -34,7 +34,25 @@ bool piImgWorker::Do(cv::Mat _img){
 
 	imgConvert(_img);	
 	if (doMorphological) Morphological(img);
-	return getPoints(img);
+	if(!getPoints(img)) return false;
+
+	degDeviationFromCenter = getDegDeviationFromCenter();
+	degRelativeDeviation = getDegRelativeDeviation();
+}
+
+int piImgWorker::getDegRelativeDeviation(){
+	int a = (pntBottomLeft.x + pntBottomRight.x) / 2 - (pntTopRight.x + pntTopLeft.x) / 2  ;
+	int b = pntTopRight.y - pntBottomRight.y;
+	if(b == 0) b = 1;
+	return atan((double)a/b) * 180 / PI;
+}
+
+int piImgWorker::getDegDeviationFromCenter(){
+	int a = (pntTopRight.x + pntTopLeft.x) / 2 - 640 / 2;
+	int b = pntBottomRight.y;
+	if(b == 0) b = 1;
+
+	return atan((double)a/b) * 180 / PI;
 }
 
 bool piImgWorker::getPoints(cv::Mat &_img){
@@ -48,7 +66,7 @@ bool piImgWorker::getPoints(cv::Mat &_img){
 				break;
 			}		
 		}
-		if(b != true) return false; // there is not any black point
+		if(b != true) continue; 
 		for(int j = _img.cols - 1; j >= 0; j--){
 			if(_img.at<char>(i, j) <= colorBlack) {
 				pntBottomRight = cv::Point(j, i);
@@ -56,16 +74,19 @@ bool piImgWorker::getPoints(cv::Mat &_img){
 			}		
 		}
 	}
+	if(b != true) return false; // there is not any black point
 
 	// TBD
-
+	b = false;
 	for(int i = _img.rows; i >= 0; i--){
 		for(int j = 0; j < _img.cols; j++){
 			if(_img.at<char>(i, j) <= colorBlack) {
- 				pntTopLeft = cv::Point(j, i);
+				pntTopLeft = cv::Point(j, i);
+				b = true;
 				break;
 			}		
 		}
+		if (b != true) continue;
 		for(int j = _img.cols - 1; j >= 0; j--){
 			if(_img.at<char>(i, j) <= colorBlack) {
 				pntTopRight = cv::Point(j, i);
