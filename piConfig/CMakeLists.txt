@@ -47,8 +47,8 @@ ELSE(CONFIG_FOUND)
     ENDIF (Config_FIND_REQUIRED)
 ENDIF (CONFIG_FOUND)
 
-add_executable(piConfig main.cpp piConfigLoader.cpp piConfigManager.cpp piConfigMotor.cpp)
-#add_executable(piConfig main.cpp piConfigLoader.h piConfigLoader.cpp piConfigBase.h piConfigMotor.h piConfigMotor.cpp  )
+add_executable(piConfig main.cpp piConfigLoader.cpp piConfigManager.cpp piConfigMotor.cpp piConfigCamera.cpp)
+#add_executable(piConfig main.cpp piConfigLoader.h piConfigLoader.cpp piConfigBase.h piConfigMotor.h piConfigMotor.cpp piConfigCamera.cpp )
 
 target_link_libraries(piConfig ${CONFIG++_LIBRARY})
 target_link_libraries(piConfig ${CONFIG_LIBRARY})
