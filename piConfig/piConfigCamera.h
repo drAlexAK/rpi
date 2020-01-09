@@ -1,11 +1,16 @@
 #pragma once
 
-class piConfigCamera{
+#include "piConfigBase.h"
+
+class piConfigCamera: public piConfigBase {
 private:
 public:
-    // value of color that less or equal this value will be recognize as the black color, the range of the value from 0 to 255
-    const int color_black;
-    // do morphological transformation for images, very poor performance
-    const bool do_morphological ;
-    piConfigCamera(int _color_black, bool _do_morphological ): color_black(_color_black), do_morphological(_do_morphological) {}
+    static constexpr const char* name = "camera";
+     //static const std::string nameA = "camera";
+     int color_black;
+     bool do_morphological;
+    piConfigCamera (piConfigLoader* _loader): piConfigBase(piConfigCamera::name, _loader){};
+
+    void PrintValue() override;
+    void LoadValues() override;
 };
