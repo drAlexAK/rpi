@@ -2,11 +2,15 @@
 #include "piConfigLoader.h"
 #include "piConfigBase.h"
 #include "piConfigMotor.h"
+#include "piConfigCamera.h"
 
 piConfigManager::piConfigManager() {
     this->loader = new piConfigLoader();
     piConfigBase* confMotor = new piConfigMotor(loader);
     mapConfigs.insert(std::make_pair(confMotor->GetSectionName(), confMotor));
+
+    piConfigBase* confCamera = new piConfigCamera(loader);
+    mapConfigs.insert(std::make_pair(confCamera->GetSectionName(), confCamera));
 }
 
 void piConfigManager::LoadConfigFromFile(const std::string &_fileName){
@@ -23,6 +27,10 @@ void piConfigManager::LoadConfigSection(const std::string &_sectionName){
 
 piConfigMotor* piConfigManager::GetConfigurationMotor(){
     return (piConfigMotor*)GetConfiguration(piConfigMotor::name);
+}
+
+piConfigCamera* piConfigManager::GetConfigurationCamera(){
+    return (piConfigCamera*)GetConfiguration(piConfigCamera::name);
 }
 
 piConfigBase* piConfigManager::GetConfiguration(const std::string &_name){

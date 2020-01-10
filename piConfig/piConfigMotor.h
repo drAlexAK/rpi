@@ -9,6 +9,8 @@ public:
      //static const std::string nameA = "motor";
     double battery_volt, min_motor_volt, max_motor_volt;
     piConfigMotor(piConfigLoader* _loader): piConfigBase(piConfigMotor::name, _loader){};
+    piConfigMotor(const piConfigMotor&) = delete;
+    piConfigMotor& operator=(const piConfigMotor&) = delete;
 
     void PrintValue() override;
     void LoadValues() override ;

@@ -27,6 +27,7 @@ int main(int argc, char **argv){
     piConfigManager confManager;
     confManager.LoadConfigFromFile(fileConfig);
     confManager.LoadConfigSection(configSection);
+    confManager.LoadConfigSection("fast");
 
     auto cMotor = confManager.GetConfigurationMotor();
     std::cout << "Hello, World!" << std::endl;

@@ -16,6 +16,7 @@ public:
     void LoadConfigSection(const std::string &_sectionName);
     piConfigBase* GetConfiguration(const std::string &_name);
     piConfigMotor* GetConfigurationMotor();
+    piConfigCamera* GetConfigurationCamera();
 
     //piConfigManager() = default;
     //piConfigMotor* confMotor;

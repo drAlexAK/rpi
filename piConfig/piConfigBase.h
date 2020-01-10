@@ -14,6 +14,9 @@ protected:
     //Setting *setDefault;
     //Setting *setCustom;
 public:
+    piConfigBase(const piConfigBase&) = delete;
+    piConfigBase& operator=(const piConfigBase&) = delete;
+
     piConfigBase(std::string _sectionName, piConfigLoader* _loader): sectionName(_sectionName), loader(_loader){};
     std::string GetSectionName() { return sectionName; };
     //void SetSetting(const Setting *_setDefault, const Setting *_setCustom) {*setDefault = _setDefault; *setCustom = _setCustom; };
